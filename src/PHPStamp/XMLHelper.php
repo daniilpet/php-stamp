@@ -151,6 +151,9 @@ class XMLHelper
     public static function queryTemplate(\DOMDocument $document, string $xpathQuery)
     {
         $xpath = new \DOMXPath($document);
+        // Registering a namespace for WordprocessingML
+        $xpath->registerNamespace('w', 'http://schemas.openxmlformats.org/wordprocessingml/2006/main');
+
         $result = $xpath->query($xpathQuery);
         if ($result === false) {
             throw new ParsingException('Malformed query');
@@ -158,6 +161,7 @@ class XMLHelper
 
         return $result;
     }
+
 
     /**
      * Formats DOMDocument for html output.
@@ -177,7 +181,7 @@ class XMLHelper
         $document->preserveWhiteSpace = true;
         $document->formatOutput = false;
 
-        return '<pre>'.htmlentities($xmlString).'</pre>';
+        return '<pre>' . htmlentities($xmlString) . '</pre>';
     }
 
     /**
